@@ -53,11 +53,20 @@ img { max-width: 100%; }
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
+.keepsake > section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  box-shadow: inset 0 4px 0 var(--page-edge-color), inset 0 -4px 0 var(--page-edge-color);
+  pointer-events: none;
+}
 
 @supports (height: 100dvh) {
   .keepsake { height: 100dvh; }
 }
 
+.keepsake > .welcome { --page-edge-color: #c9c1b9; }
 .welcome {
   position: relative;
   display: grid;
@@ -82,7 +91,7 @@ img { max-width: 100%; }
   transform: scale(.96);
   transition: opacity 2.6s ease, transform 3.2s ease;
 }
-.is-awake .welcome { background: var(--cream); }
+.keepsake.is-awake > .welcome { --page-edge-color: #f5ebdd; background: var(--cream); }
 .is-awake .welcome-glow { opacity: 1; transform: scale(1); }
 .wake-button {
   display: grid;
@@ -228,6 +237,7 @@ h1 {
   overflow: hidden;
   padding: 100px 22px;
 }
+.keepsake > .story { --page-edge-color: #f6ecdf; }
 .story {
   display: flex;
   min-height: 100svh;
@@ -236,7 +246,7 @@ h1 {
   padding: clamp(58px, 8svh, 82px) 18px 28px;
   background:
     radial-gradient(circle at 100% 8%, rgba(226,188,159,.2), transparent 23%),
-    linear-gradient(180deg, #f6ecdf 0%, #fffaf2 46%, #f2e7d8 100%);
+    linear-gradient(180deg, #f6ecdf 0%, #fffaf2 46%, #f6ecdf 100%);
 }
 .chapter-heading { position: relative; z-index: 2; max-width: 520px; margin: 0 auto 42px; }
 .chapter-heading h2 {
@@ -375,6 +385,7 @@ h1 {
   animation: sticker-float-right 5.2s .45s ease-in-out infinite;
 }
 
+.keepsake > .letter { --page-edge-color: #f3e7d5; }
 .letter {
   display: flex;
   min-height: 100svh;
@@ -382,8 +393,8 @@ h1 {
   align-items: center;
   padding: clamp(72px, 9svh, 102px) 18px max(34px, env(safe-area-inset-bottom));
   background:
-    linear-gradient(rgba(247,239,226,.93), rgba(243,231,213,.98)),
-    repeating-linear-gradient(88deg, transparent 0 4px, rgba(92,71,52,.018) 4px 5px);
+    repeating-linear-gradient(88deg, transparent 0 4px, rgba(92,71,52,.018) 4px 5px),
+    linear-gradient(180deg, #f3e7d5 0%, #f7efe2 18%, #f7efe2 82%, #f3e7d5 100%);
 }
 .letter-sun {
   position: absolute;
@@ -552,11 +563,15 @@ h1 {
 .letter-signature span:first-child { font-size: 15px; letter-spacing: .13em; }
 .letter-signature.is-visible { opacity: 1; transform: translateY(0); }
 .letter-companions {
-  position: relative;
+  position: absolute;
+  right: 18px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: 18px;
   z-index: 3;
-  width: min(100%, 500px);
+  width: auto;
+  max-width: 500px;
   height: clamp(178px, 23svh, 210px);
-  margin: 6px auto -8px;
+  margin: 0 auto;
 }
 .salary-cat {
   position: absolute;
@@ -571,7 +586,7 @@ h1 {
 }
 .salary-cat--love {
   right: clamp(18px, 6vw, 38px);
-  bottom: -28px;
+  bottom: 0;
   width: clamp(122px, 33vw, 150px);
   animation: companion-breathe 4.2s .35s ease-in-out infinite;
 }
@@ -579,6 +594,7 @@ h1 {
 .salary-cat--love img { animation-delay: .8s; }
 .cat-thought { position: absolute; right: 14px; bottom: -14px; color: var(--rose); font-size: 18px; animation: thought-rise 3s ease-in-out infinite; }
 
+.keepsake > .ending { --page-edge-color: #26313b; }
 .ending {
   position: relative;
   display: grid;
@@ -587,7 +603,7 @@ h1 {
   overflow: hidden;
   isolation: isolate;
   padding: 80px 24px max(44px, env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, #26313b 0%, #313c45 52%, #202b31 100%);
+  background: linear-gradient(180deg, #26313b 0%, #313c45 52%, #26313b 100%);
 }
 .night-haze {
   position: absolute;
@@ -749,9 +765,9 @@ h1 {
   .letter-paper > p { font-size: clamp(15px, 3.9vw, 16.5px); line-height: 1.75; }
   .letter-ellipsis { margin-top: 14px; }
   .letter-signature { padding-top: 12px; font-size: 12.5px; line-height: 1.55; }
-  .letter-companions { height: clamp(112px, 17dvh, 132px); margin: 0 auto -4px; }
+  .letter-companions { right: 14px; bottom: max(18px, env(safe-area-inset-bottom)); left: 14px; height: clamp(112px, 17dvh, 132px); margin: 0 auto; }
   .salary-cat--reading { left: clamp(24px, 8vw, 40px); width: clamp(104px, 30vw, 118px); }
-  .salary-cat--love { right: clamp(18px, 6vw, 34px); bottom: -24px; width: clamp(106px, 30vw, 120px); }
+  .salary-cat--love { right: clamp(18px, 6vw, 34px); bottom: 0; width: clamp(106px, 30vw, 120px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

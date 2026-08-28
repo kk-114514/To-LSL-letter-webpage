@@ -21,7 +21,7 @@ const letterSignature = document.querySelector('#letter-signature');
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const chromeColors = ['#c9c1b9', '#f6ecdf', '#f7efe2', '#26313b'];
+const chromeColors = ['#c9c1b9', '#f6ecdf', '#f3e7d5', '#26313b'];
 
 function updateChromeColor(index, override) {
   const color = override || chromeColors[index];
