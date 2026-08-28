@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5ebdd">
+  <meta name="description" content="A small private keepsake for our favorite moments.">
+  <meta property="og:title" content="Hi LSL">
+  <meta property="og:description" content="Every moment with you is my favorite.">
+  <meta property="og:image" content="./og.png">
+  <link rel="icon" href="./favicon.svg">
+  <link rel="stylesheet" href="./style.css">
+  <title>Hi LSL · Every moment with you</title>
+</head>
+<body>
+  <main class="keepsake" id="keepsake">
+    <section class="welcome" id="welcome" aria-labelledby="welcome-title">
+      <div class="welcome-glow" aria-hidden="true"></div>
+      <div class="cloud cloud-one" aria-hidden="true"></div>
+      <div class="cloud cloud-two" aria-hidden="true"></div>
+
+      <button class="wake-button" id="wake-button" type="button" aria-label="轻触，打开我们的纪念页">
+        <span class="wake-heart" aria-hidden="true">♡</span>
+        <span>轻触这里</span>
+      </button>
+
+      <div class="welcome-copy">
+        <h1 id="welcome-title">Hi LSL</h1>
+        <p class="intro">Every moment with you<br>is my favorite.</p>
+      </div>
+
+      <figure class="puppy-arrival" aria-label="线条小狗从边缘跑来挥手">
+        <div class="puppy-frame"><img src="./line-puppy.jpg" alt="线条小狗"></div>
+        <span class="wave-line" aria-hidden="true">)))</span>
+      </figure>
+
+      <a class="scroll-cue" href="#story" aria-label="查看我们的相遇计时">
+        <span aria-hidden="true">↓</span>
+      </a>
+    </section>
+
+    <section class="story chapter" id="story" aria-labelledby="story-title">
+      <div class="chapter-heading reveal-on-scroll">
+        <h2 id="story-title">Since We Met</h2>
+        <p class="chapter-note">2026.08.03 · 12:26</p>
+      </div>
+
+      <div class="counter-shell" id="counter-shell" aria-label="从第一次见面起的相遇计时">
+        <p class="counter-kicker">我们已经相遇</p>
+        <div class="counter-grid" aria-live="off">
+          <div class="counter-unit counter-unit--days"><strong id="days">00</strong><span>天</span></div>
+          <div class="counter-unit counter-unit--hours"><strong id="hours">00</strong><span>小时</span></div>
+          <div class="counter-unit counter-unit--minutes"><strong id="minutes">00</strong><span>分钟</span></div>
+          <div class="counter-unit counter-unit--seconds"><strong id="seconds">00</strong><span>秒</span></div>
+        </div>
+        <div class="counter-heart" aria-hidden="true">♡</div>
+        <p class="counter-note">and counting</p>
+      </div>
+
+      <figure class="counter-sticker counter-sticker--left">
+        <img src="./timer-left.jpg" alt="小狗捧着玫瑰说我想跟你好">
+      </figure>
+      <figure class="counter-sticker counter-sticker--right">
+        <img src="./timer-right.jpg" alt="小狗托着脸说好想你">
+      </figure>
+    </section>
+
+    <section class="letter chapter" id="letter" aria-labelledby="letter-title">
+      <div class="letter-sun" aria-hidden="true"></div>
+      <div class="chapter-heading letter-heading">
+        <h2 id="letter-title">A Letter</h2>
+      </div>
+
+      <div class="letter-scroll" id="letter-scroll">
+        <span class="scroll-rod scroll-rod--top" aria-hidden="true"></span>
+        <article class="letter-paper" aria-live="polite">
+          <p><span id="letter-plain"></span><span class="letter-emphasis" id="letter-emphasis"></span><span class="typing-caret" id="typing-caret" aria-hidden="true"></span><span class="letter-ellipsis" id="letter-ellipsis" aria-hidden="true"><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i><i>.</i></span></p>
+        </article>
+        <span class="scroll-rod scroll-rod--bottom" aria-hidden="true"></span>
+      </div>
+
+      <div class="letter-companions">
+        <figure class="salary-cat salary-cat--reading" aria-label="月薪喵在信纸旁读信">
+          <img src="./salary-cat.png" alt="月薪喵">
+          <span class="cat-thought" aria-hidden="true">♡</span>
+        </figure>
+        <figure class="salary-cat salary-cat--love" aria-label="月薪喵抱着陪伴它的小动物">
+          <img src="./salary-cat-embrace.png" alt="拥抱着小动物的月薪喵">
+        </figure>
+      </div>
+    </section>
+
+    <section class="ending" aria-label="小动物们一起看星空">
+      <div class="night-haze" aria-hidden="true"></div>
+      <div class="stars stars-near" aria-hidden="true"></div>
+      <div class="stars stars-far" aria-hidden="true"></div>
+      <span class="shooting-star" aria-hidden="true"></span>
+      <div class="moon" aria-hidden="true"></div>
+      <div class="stargazers" aria-hidden="true">
+        <span class="back back-dog"></span>
+        <span class="back back-capy"></span>
+        <span class="back back-cat"></span>
+        <span class="back back-pup"></span>
+      </div>
+      <p>To be continued…</p>
+    </section>
+  </main>
+  <script src="./script.js" defer></script>
+</body>
+</html>
