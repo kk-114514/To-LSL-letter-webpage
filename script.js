@@ -17,10 +17,21 @@ const plainText = document.querySelector('#letter-plain');
 const emphasizedText = document.querySelector('#letter-emphasis');
 const typingCaret = document.querySelector('#typing-caret');
 const letterEllipsis = document.querySelector('#letter-ellipsis');
+const letterSignature = document.querySelector('#letter-signature');
+const themeColor = document.querySelector('meta[name="theme-color"]');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const chromeColors = ['#c9c1b9', '#f6ecdf', '#f7efe2', '#26313b'];
+
+function updateChromeColor(index, override) {
+  const color = override || chromeColors[index];
+  themeColor.setAttribute('content', color);
+  document.documentElement.style.setProperty('--chrome-color', color);
+}
 
 function wakePage() {
   keepsake.classList.add('is-awake');
+  updateChromeColor(0, '#f5ebdd');
 }
 
 welcome.addEventListener('click', wakePage);
@@ -53,6 +64,7 @@ function scrollToPage(index, instant = false) {
   activePage = Math.max(0, Math.min(pages.length - 1, index));
   const page = pages[activePage];
   if (!page) return;
+  updateChromeColor(activePage, activePage === 0 && keepsake.classList.contains('is-awake') ? '#f5ebdd' : undefined);
   keepsake.scrollTo({
     top: page.offsetTop,
     behavior: instant || prefersReducedMotion ? 'auto' : 'smooth',
@@ -122,6 +134,7 @@ window.addEventListener('hashchange', alignHashTarget);
 window.visualViewport?.addEventListener('resize', alignAfterViewportResize);
 keepsake.addEventListener('scrollend', () => {
   activePage = nearestPage();
+  updateChromeColor(activePage, activePage === 0 && keepsake.classList.contains('is-awake') ? '#f5ebdd' : undefined);
 }, { passive: true });
 window.requestAnimationFrame(() => window.requestAnimationFrame(alignHashTarget));
 
@@ -172,6 +185,7 @@ function typeLetter() {
     renderLetter(letter.length);
     typingCaret.classList.add('is-done');
     letterEllipsis.classList.add('is-visible');
+    letterSignature.classList.add('is-visible');
     return;
   }
 
@@ -180,6 +194,7 @@ function typeLetter() {
     if (typedLength >= letter.length) {
       typingCaret.classList.add('is-done');
       letterEllipsis.classList.add('is-visible');
+      letterSignature.classList.add('is-visible');
       return;
     }
     typedLength += 1;
