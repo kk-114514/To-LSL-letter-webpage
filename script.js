@@ -25,7 +25,105 @@ function wakePage() {
 
 welcome.addEventListener('click', wakePage);
 wakeButton.addEventListener('click', wakePage);
-scrollCue.addEventListener('click', (event) => event.stopPropagation());
+
+const pages = Array.from(keepsake.querySelectorAll(':scope > section'));
+let touchStartX = 0;
+let touchStartY = 0;
+let activePage = 0;
+let touchPage = 0;
+let trackingTouch = false;
+let wheelLocked = false;
+let wheelUnlockTimer = 0;
+let resizeTimer = 0;
+
+function nearestPage() {
+  let nearest = 0;
+  let distance = Number.POSITIVE_INFINITY;
+  pages.forEach((page, index) => {
+    const nextDistance = Math.abs(keepsake.scrollTop - page.offsetTop);
+    if (nextDistance < distance) {
+      distance = nextDistance;
+      nearest = index;
+    }
+  });
+  return nearest;
+}
+
+function scrollToPage(index, instant = false) {
+  activePage = Math.max(0, Math.min(pages.length - 1, index));
+  const page = pages[activePage];
+  if (!page) return;
+  keepsake.scrollTo({
+    top: page.offsetTop,
+    behavior: instant || prefersReducedMotion ? 'auto' : 'smooth',
+  });
+}
+
+scrollCue.addEventListener('click', (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  scrollToPage(1);
+});
+
+keepsake.addEventListener('touchstart', (event) => {
+  if (event.touches.length !== 1) return;
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+  activePage = nearestPage();
+  touchPage = activePage;
+  trackingTouch = true;
+}, { passive: true });
+
+keepsake.addEventListener('touchmove', (event) => {
+  if (!trackingTouch || event.touches.length !== 1) return;
+  const deltaX = touchStartX - event.touches[0].clientX;
+  const deltaY = touchStartY - event.touches[0].clientY;
+  if (Math.abs(deltaY) <= Math.abs(deltaX) || Math.abs(deltaY) < 8) return;
+  event.preventDefault();
+}, { passive: false });
+
+keepsake.addEventListener('touchend', (event) => {
+  if (!trackingTouch) return;
+  trackingTouch = false;
+  const endY = event.changedTouches[0]?.clientY ?? touchStartY;
+  const deltaY = touchStartY - endY;
+  const direction = Math.abs(deltaY) >= 44 ? Math.sign(deltaY) : 0;
+  scrollToPage(touchPage + direction);
+}, { passive: true });
+
+keepsake.addEventListener('touchcancel', () => {
+  trackingTouch = false;
+  scrollToPage(nearestPage());
+}, { passive: true });
+
+keepsake.addEventListener('wheel', (event) => {
+  if (Math.abs(event.deltaY) <= Math.abs(event.deltaX) || Math.abs(event.deltaY) < 8) return;
+  event.preventDefault();
+  if (wheelLocked) return;
+  wheelLocked = true;
+  scrollToPage(nearestPage() + Math.sign(event.deltaY));
+  window.clearTimeout(wheelUnlockTimer);
+  wheelUnlockTimer = window.setTimeout(() => {
+    wheelLocked = false;
+  }, 720);
+}, { passive: false });
+
+function alignHashTarget() {
+  const target = pages.find((page) => `#${page.id}` === window.location.hash);
+  if (target) scrollToPage(pages.indexOf(target), true);
+}
+
+function alignAfterViewportResize() {
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(() => scrollToPage(activePage, true), 90);
+}
+
+window.addEventListener('hashchange', alignHashTarget);
+window.visualViewport?.addEventListener('resize', alignAfterViewportResize);
+keepsake.addEventListener('scrollend', () => {
+  activePage = nearestPage();
+}, { passive: true });
+window.requestAnimationFrame(() => window.requestAnimationFrame(alignHashTarget));
 
 function getElapsedTime() {
   const totalSeconds = Math.max(0, Math.floor((Date.now() - firstMeeting) / 1000));
@@ -86,10 +184,10 @@ function typeLetter() {
     }
     typedLength += 1;
     renderLetter(typedLength);
-    const delay = typedLength < 12 ? 80 : 42;
+    const delay = typedLength < 12 ? 105 : 68;
     window.setTimeout(typeNext, delay);
   };
-  window.setTimeout(typeNext, 1250);
+  window.setTimeout(typeNext, 1650);
 }
 
 const letterObserver = new IntersectionObserver(
